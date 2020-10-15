@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import singh.ritesh.dream11combinations.helper.FileHelper;
+import singh.ritesh.dream11combinations.service.implementation.CombinationFinderServiceImpl;
 
 @SpringBootApplication
 public class Main
@@ -23,7 +24,8 @@ public class Main
 
         */
 
-        FileHelper.parseInputExcel();
+        CombinationFinderServiceImpl combinationFinderService = new CombinationFinderServiceImpl();
+        System.out.println(combinationFinderService.getAllCombinations(FileHelper.getHardcodedPlayers()));
     }
 
 }
