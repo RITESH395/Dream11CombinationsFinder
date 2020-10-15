@@ -4,17 +4,29 @@ import java.util.Objects;
 
 public class Player
 {
+    private int id;
     private String playerName;
     private double credit;
     private Franchise playerFranchise;
     private PlayerType playerType;
 
-    public Player(String playerName, double playerDreamCredit, Franchise playerFranchise, PlayerType playerType)
+    public Player(int id, String playerName, double playerDreamCredit, Franchise playerFranchise, PlayerType playerType)
     {
+        this.id = id;
         this.playerName = playerName;
         this.credit = playerDreamCredit;
         this.playerFranchise = playerFranchise;
         this.playerType = playerType;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getPlayerName()

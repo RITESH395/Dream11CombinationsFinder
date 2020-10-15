@@ -46,12 +46,23 @@ public class DreamTeam
             throw new CreditExceededException("Credit is exceeding 100");
         else
         {
-            Set<Franchise> tempFranchises = franchisePlayerCountMap.keySet();
+            Set<Franchise> tempFranchises = new HashSet<>(franchisePlayerCountMap.keySet());
             tempFranchises.add(newPLayer.getPlayerFranchise());
             if (tempFranchises.size() > 2)
                 throw new FranchiseSizeException("More than two franchise found "+ tempFranchises.toString());
-            else if (franchisePlayerCountMap.get(newPLayer.getPlayerFranchise()) + 1 > 7)
+            else if (franchisePlayerCountMap.get(newPLayer.getPlayerFranchise())!= null && franchisePlayerCountMap.get(newPLayer.getPlayerFranchise()) + 1 > 7)
                 throw new MaxPLayerFromFranchiseException(newPLayer.getPlayerFranchise(), "Max player from Franchise");
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder output = new StringBuilder();
+        for(Player player : finalPLayers)
+        {
+            output.append(player.getPlayerName()).append("(").append(player.getPlayerFranchise().toString()).append(")");
+        }
+        return output.toString();
     }
 }
