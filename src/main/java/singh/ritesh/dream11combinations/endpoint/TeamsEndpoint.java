@@ -23,7 +23,7 @@ public class TeamsEndpoint
     @RequestMapping("/download")
     public ResponseEntity<InputStreamResource> getTeamsExcel() throws FileNotFoundException
     {
-        File file = new File("output.xls");
+        File file = new File("output.xlsx");
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
