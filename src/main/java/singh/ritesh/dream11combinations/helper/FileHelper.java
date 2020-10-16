@@ -20,9 +20,9 @@ public class FileHelper
     {
         try
         {
-            FileInputStream file = new FileInputStream(new File("input.xls"));
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            FileInputStream fis = new FileInputStream(new File("input.xlsx"));
+            Workbook workbook = WorkbookFactory.create(fis);
+            Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet)
             {
@@ -36,7 +36,7 @@ public class FileHelper
                 }
                 System.out.println("");
             }
-            file.close();
+            fis.close();
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class FileHelper
         InputStream inputStream = null;
         try
         {
-            inputStream = new FileInputStream(new File("input.xls"));
+            inputStream = new FileInputStream(new File("input.xlsx"));
             Workbook wb = WorkbookFactory.create(inputStream);
             int numberOfSheet = wb.getNumberOfSheets();
 
