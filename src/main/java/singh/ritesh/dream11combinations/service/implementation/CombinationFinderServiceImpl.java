@@ -9,6 +9,9 @@ import singh.ritesh.dream11combinations.service.CombinationFinderService;
 
 import java.util.*;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CombinationFinderServiceImpl implements CombinationFinderService
 {
     @Override
