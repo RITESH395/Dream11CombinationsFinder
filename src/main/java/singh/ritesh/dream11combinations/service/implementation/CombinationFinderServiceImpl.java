@@ -1,15 +1,19 @@
 package singh.ritesh.dream11combinations.service.implementation;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 import singh.ritesh.dream11combinations.bo.DreamTeam;
 import singh.ritesh.dream11combinations.bo.Player;
 import singh.ritesh.dream11combinations.bo.PlayerType;
 import singh.ritesh.dream11combinations.helper.Dream11RuleHelper;
+import singh.ritesh.dream11combinations.helper.FileHelper;
 import singh.ritesh.dream11combinations.helper.MathOperationHelper;
 import singh.ritesh.dream11combinations.service.CombinationFinderService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class CombinationFinderServiceImpl implements CombinationFinderService
@@ -17,7 +21,7 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
     @Override
     public Map<String, List<DreamTeam>> getAllCombinations(List<Player> players)
     {
-        if(players.size() < 11)
+        if (players.size() < 11)
             return null;/*not possible*/
 
         /*combining both teams in one*/
@@ -26,7 +30,7 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
         List<Player> allroundersOfBothTeam = new ArrayList<>();
         List<Player> bowlersOfBothTeam = new ArrayList<>();
 
-        for(Player player : players)
+        for (Player player : players)
         {
             PlayerType playerType = player.getPlayerType();
             switch (playerType)
@@ -58,22 +62,33 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
 
         Map<String, List<DreamTeam>> sheetWiseResult = new HashMap<>();
         int[][] validCombOfPlayerType = Dream11RuleHelper.getPlayerTypeValidCombinations();
-        for(int [] arr : validCombOfPlayerType)
+        for (int[] arr : validCombOfPlayerType)
         {
-            int wkCount = arr[0],batCount = arr[1],arCount = arr[2], bowlCount = arr[3];
+            int wkCount = arr[0], batCount = arr[1], arCount = arr[2], bowlCount = arr[3];
             List<DreamTeam> dreamTeams = getDreamTeamsForOneCombinations(wkCount, batCount, arCount, bowlCount, playerTypeMap);
 
-            String sheetName = wkCount + "-" + batCount + "-" + arCount + "-" + bowlCount+" ("+dreamTeams.size()+")";
+            String sheetName = wkCount + "-" + batCount + "-" + arCount + "-" + bowlCount + " (" + dreamTeams.size() + ")";
             sheetWiseResult.put(sheetName, dreamTeams);
         }
 
         return sheetWiseResult;
     }
 
+    @Override
+    public void populateExcel(String fileName) throws IOException
+    {
+        List<Player> players = FileHelper.readInputExcel();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        Map<String, List<DreamTeam>> allCombinations = this.getAllCombinations(players);
+        FileHelper.writeCombinationsToExcel(allCombinations, workbook);
+        workbook.write(new FileOutputStream(new File(fileName)));
+    }
+
 
     private List<DreamTeam> getDreamTeamsForOneCombinations(int wk, int bat, int ar, int bowl, Map<PlayerType, List<Player>> playersMap)
     {
-        if(wk+bat+ar+bowl != 11)
+        if (wk + bat + ar + bowl != 11)
             return new ArrayList<>();
 
         List<Player> keepers = playersMap.get(PlayerType.WK);
@@ -81,10 +96,10 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
         List<Player> allrounders = playersMap.get(PlayerType.AR);
         List<Player> bowlers = playersMap.get(PlayerType.BOWL);
 
-        if(keepers.size()< wk)return new ArrayList<>();
-        else if(batsmans.size()< bat)return new ArrayList<>();
-        else if(allrounders.size()< ar)return new ArrayList<>();
-        else if(bowlers.size()< bowl)return new ArrayList<>();
+        if (keepers.size() < wk) return new ArrayList<>();
+        else if (batsmans.size() < bat) return new ArrayList<>();
+        else if (allrounders.size() < ar) return new ArrayList<>();
+        else if (bowlers.size() < bowl) return new ArrayList<>();
 
         List<Set<Player>> wkCombinations = MathOperationHelper.getPlayerCombination(keepers, wk);
         List<Set<Player>> batCombinations = MathOperationHelper.getPlayerCombination(batsmans, bat);
@@ -92,20 +107,20 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
         List<Set<Player>> bowlCombinations = MathOperationHelper.getPlayerCombination(bowlers, bowl);
 
         List<DreamTeam> dreamTeams = new ArrayList<>();
-        for(Set<Player> kpLoop : wkCombinations)
+        for (Set<Player> kpLoop : wkCombinations)
         {
             double creditsOfKeeper = MathOperationHelper.getCreditCount(kpLoop);
-            for(Set<Player> batLoop : batCombinations)
+            for (Set<Player> batLoop : batCombinations)
             {
                 double creditsOfBatsman = MathOperationHelper.getCreditCount(batLoop);
-                for(Set<Player> arLoop : arCombinations)
+                for (Set<Player> arLoop : arCombinations)
                 {
                     double creditsOfAllRounder = MathOperationHelper.getCreditCount(arLoop);
-                    for(Set<Player> bowlLoop : bowlCombinations)
+                    for (Set<Player> bowlLoop : bowlCombinations)
                     {
                         double creditsOfBowler = MathOperationHelper.getCreditCount(bowlLoop);
                         double creditSum = creditsOfKeeper + creditsOfBatsman + creditsOfAllRounder + creditsOfBowler;
-                        if(creditSum <= 100.00 )
+                        if (creditSum <= 100.00)
                         {
                             List<Player> possibleDreamTeam = new ArrayList<>();
                             possibleDreamTeam.addAll(kpLoop);
@@ -130,13 +145,13 @@ public class CombinationFinderServiceImpl implements CombinationFinderService
         List<Player> allrounders = playersMap.get(PlayerType.AR);
         List<Player> bowlers = playersMap.get(PlayerType.BOWL);
 
-        if(keepers.size() < 1)
+        if (keepers.size() < 1)
             throw new RuntimeException("Atleast one keeper in team required");
-        else if(batsman.size() < 3)
+        else if (batsman.size() < 3)
             throw new RuntimeException("Atleast three batsman in team required");
-        else if(allrounders.size() < 1)
+        else if (allrounders.size() < 1)
             throw new RuntimeException("Atleast one all rounders in team required");
-        else if(bowlers.size() < 3)
+        else if (bowlers.size() < 3)
             throw new RuntimeException("Atleast three bowlers in team required");
 
     }

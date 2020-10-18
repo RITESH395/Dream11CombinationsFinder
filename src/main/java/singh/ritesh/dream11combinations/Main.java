@@ -13,23 +13,16 @@ import singh.ritesh.dream11combinations.service.implementation.CombinationFinder
 @SpringBootApplication
 public class Main
 {
-	
-	
     public static void main(String[] args)
     {
         System.out.println("Only for cricket");
         ApplicationContext ctx = SpringApplication.run(Main.class, args);
 
-        
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames)
         {
             System.out.println(beanName);
         }
-        
     }
-    
-    
-
 }
