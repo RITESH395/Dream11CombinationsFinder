@@ -104,17 +104,33 @@ public class FileHelper {
 			
 			List<DreamTeam> combination = entry.getValue();
 
-			for(int i=0; i<combination.size(); i++) {
-				
+			int size = combination.size();
+			int sheetNumber = 0;
+			int counter = 0;
+			
+			for(int i=0; i<size; i++) {
+				if(i==16383) {
+					System.out.println();
+				}
+				int rowCount = 11*sheetNumber+2;
+				counter++;
+				if(!(i<(sheetNumber+1)*16000)) {
+					sheetNumber++;
+					counter = 0;
+					rowCount = 11*sheetNumber+2;
+				}
 				Set<Player> players = combination.get(i).getFinalPLayers();
-				int playerCount = 0;
+				
 				double totalPoints = 0;
 				for(Player player : players) {
-					setCellValue(sheet.createRow(playerCount++).createCell(i), player.getPlayerName() +" ("+player.getPlayerFranchise().toString()+")");
+					setCellValue(sheet.createRow(rowCount++).createCell(counter), player.getPlayerName() +" ("+player.getPlayerFranchise().toString()+")");
 //					setCellValue(row.createCell(playerCount++), player.getPlayerName() +" ("+player.getPlayerFranchise().toString()+")");
 					totalPoints = totalPoints + player.getPlayerDreamCredit() ;
 				}
-				setCellValue(sheet.createRow(playerCount).createCell(i),String.valueOf(totalPoints));
+				if(rowCount == 16383 || counter==16383) {
+					System.out.println();
+				}
+				setCellValue(sheet.createRow(rowCount).createCell(counter),String.valueOf(totalPoints));
 			}
 			
 		}

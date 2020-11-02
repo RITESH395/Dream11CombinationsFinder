@@ -51,6 +51,11 @@ public class TeamsEndpoint
 //        Workbook workBook = WorkbookFactory.create(file);
         FileHelper.writeCombinationsToExcel(allCombinations, workbook);
         File file = new File("output.xlsx");
+        if(file.exists()) {
+        	file.delete();
+        	file.createNewFile();
+        	System.out.println(file.getName());
+        }
         FileOutputStream out = new FileOutputStream(file);
         workbook.write(out);
         
