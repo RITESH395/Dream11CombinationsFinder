@@ -14,5 +14,8 @@ Steps to run in local machine
    1. Put "No" if you don't want to include this player to dream team
    2. Put "Yes" if you want to include in dream team based on combination
    3. Put "Mandatory" if you 100% want this player in your dream team 
+   4. <img width="399" alt="image" src="https://user-images.githubusercontent.com/19280946/161395655-adc0dab6-b486-4ea0-a750-eeaff738cca3.png">
+
 10. Save the excel and Go to http://localhost:8080/download
 11. If everything is fine you will see an excel with combinations sheet wise
+12. <img width="612" alt="image" src="https://user-images.githubusercontent.com/19280946/161395604-c760cc1f-67ea-4130-9254-3f77c635a70e.png">
