@@ -15,6 +15,15 @@ public class DreamTeam
     private Set<Player> finalPLayers = new HashSet<>(); /*size must be 11*/
     private double totalCreditCount = 0; /* totalCreditCount must be <= 100.0*/
     private Map<Franchise, Integer> franchisePlayerCountMap = new HashMap<>();//map size must be 2 only and each value <=7
+    private PlayersDivision playersDivisionCount = new PlayersDivision();
+
+    public PlayersDivision getPlayersDivisionCount() {
+        return playersDivisionCount;
+    }
+
+    public Map<Franchise, Integer> getFranchisePlayerCountMap() {
+        return new HashMap<>(franchisePlayerCountMap);
+    }
 
     public Set<Player> getFinalPLayers()
     {
@@ -29,6 +38,21 @@ public class DreamTeam
         totalCreditCount = totalCreditCount + pLayer.getPlayerDreamCredit();
         franchisePlayerCountMap.putIfAbsent(pLayer.getPlayerFranchise(), 0);
         franchisePlayerCountMap.put(pLayer.getPlayerFranchise(), franchisePlayerCountMap.get(pLayer.getPlayerFranchise())+1);
+        PlayerType playerType = pLayer.getPlayerType();
+        switch (playerType){
+            case WK:
+                playersDivisionCount.addWKCount();
+                break;
+            case BAT:
+                playersDivisionCount.addBATCount();
+                break;
+            case AR:
+                playersDivisionCount.addALLRCount();
+                break;
+            case BOWL:
+                playersDivisionCount.addBOWLCount();
+                break;
+        }
     }
 
     /*

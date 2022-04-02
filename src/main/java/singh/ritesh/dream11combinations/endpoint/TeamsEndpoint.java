@@ -22,7 +22,7 @@ public class TeamsEndpoint
     @RequestMapping("/")
     public String testing()
     {
-        return "Yes its workig fine..!! Go ahead";
+        return "Yes its working fine..!! Go ahead";
     }
 
     @RequestMapping("/download")
@@ -30,6 +30,7 @@ public class TeamsEndpoint
     {
         String fileName = "output.xlsx";
     	combinationFinderService.populateExcel(fileName);
+        System.out.println("[SUCCESS] File generated.. at " + fileName);
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(fileName));
         HttpHeaders headers = new HttpHeaders();

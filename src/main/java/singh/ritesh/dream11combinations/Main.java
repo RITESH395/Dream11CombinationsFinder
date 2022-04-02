@@ -1,14 +1,10 @@
 package singh.ritesh.dream11combinations;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import singh.ritesh.dream11combinations.helper.FileHelper;
-import singh.ritesh.dream11combinations.service.CombinationFinderService;
-import singh.ritesh.dream11combinations.service.implementation.CombinationFinderServiceImpl;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class Main
@@ -22,7 +18,11 @@ public class Main
         Arrays.sort(beanNames);
         for (String beanName : beanNames)
         {
-            System.out.println(beanName);
+            System.out.print(beanName + " | ");
         }
+        System.out.println();
+        System.out.println("====================");
+        System.out.println("[SUCCESS] Application start ..");
+        System.out.println("====================");
     }
 }

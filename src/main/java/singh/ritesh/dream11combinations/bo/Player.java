@@ -2,20 +2,23 @@ package singh.ritesh.dream11combinations.bo;
 
 import java.util.Objects;
 
-public class Player {
+public class Player implements Comparable<Player>{
 	private int id;
 	private String playerName;
 	private double credit;
 	private Franchise playerFranchise;
 	private PlayerType playerType;
+	private String includePlayer;
+
 
 	public Player(int id, String playerName, double playerDreamCredit, Franchise playerFranchise,
-			PlayerType playerType) {
+			PlayerType playerType, String includePlayer) {
 		this.id = id;
 		this.playerName = playerName;
 		this.credit = playerDreamCredit;
 		this.playerFranchise = playerFranchise;
 		this.playerType = playerType;
+		this.includePlayer = includePlayer;
 	}
 
 	public int getId() {
@@ -58,6 +61,22 @@ public class Player {
 		this.playerType = playerType;
 	}
 
+	public double getCredit() {
+		return credit;
+	}
+
+	public void setCredit(double credit) {
+		this.credit = credit;
+	}
+
+	public String getIncludePlayer() {
+		return includePlayer;
+	}
+
+	public void setIncludePlayer(String includePlayer) {
+		this.includePlayer = includePlayer;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -80,4 +99,13 @@ public class Player {
 				+ playerFranchise + ", playerType=" + playerType + "]";
 	}
 
+	@Override
+	public int compareTo(Player p) {
+		if (this.getPlayerType().getId() > p.getPlayerType().getId())
+			return 1;
+		else if(this.getPlayerType().getId() < p.getPlayerType().getId())
+			return -1;
+		else
+			return 0;
+	}
 }
