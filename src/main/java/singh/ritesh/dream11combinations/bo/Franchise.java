@@ -9,7 +9,7 @@ public enum Franchise
     SRH("SunRisers Hyderabad"),
     CSK("Chennai Super kings"),
     RR("Rajasthan Royals"),
-    PK("Punjab Kings"),
+    PBKS("Punjab Kings"),
     GT("Gujarat Titans"),
     LSG("Lucknow Super Giants");
 
