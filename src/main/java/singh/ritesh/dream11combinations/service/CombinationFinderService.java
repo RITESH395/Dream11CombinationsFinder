@@ -17,4 +17,6 @@ public interface CombinationFinderService
 
     void populateExcel(String fileName) throws IOException;
 
+    public Map<String, Integer> getCount();
+
 }

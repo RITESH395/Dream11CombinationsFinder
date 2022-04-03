@@ -18,6 +18,8 @@ public class TeamsEndpoint
 	
 	@Autowired
 	CombinationFinderService combinationFinderService;
+
+    //private static Gson gson = new Gson();
 	
     @RequestMapping("/")
     public String testing()
@@ -45,5 +47,12 @@ public class TeamsEndpoint
                 .contentLength(fileName.length())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+
+    @RequestMapping("/count")
+    public Object getTeamsCount() throws IOException
+    {
+        System.out.println("[SUCCESS] Count generated.. ");
+        return combinationFinderService.getCount();
     }
 }

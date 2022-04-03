@@ -1,6 +1,5 @@
 package singh.ritesh.dream11combinations.service.implementation;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -94,6 +93,22 @@ public class CombinationFinderServiceImpl implements CombinationFinderService {
     FileHelper.writeCombinationsToExcel(allCombinations, workbook);
     workbook.write(new FileOutputStream(new File(fileName)));
     workbook.close();
+  }
+
+  @Override
+  public Map<String, Integer> getCount() {
+    List<Player> players = FileHelper.readInputExcel();
+
+    Map<String, List<DreamTeam>> allCombinations = this.getAllCombinations(players);
+    Map<String, Integer> map = new LinkedHashMap<>();
+    Integer total = 0;
+    for (String sheet : allCombinations.keySet()) {
+      int size = allCombinations.get(sheet).size();
+      map.put(sheet, size);
+      total = total + size;
+    }
+    map.put("TOTAL", total);
+    return map;
   }
 
   private List<DreamTeam> getDreamTeamsForOneCombinations(
